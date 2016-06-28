@@ -200,19 +200,22 @@ while True:
                 for i in range(len(languages)):
                     qlang = languages[i]
                     scores = getScores(username, qlang)
-                    print("Your scores for {} are: ".format(qlang))
+                    print("Your scores for {} are: ".format(qlang.title()))
                     if len(scores) == 0:
                         print("You haven't played a game yet!")
                     else:
-                        print(scores)
+                        for j in range(len(scores)):
+                            scores[i] = 
+                        print(", ".join(scores))
+                    print()
                     
             if useraction == "3":
                 for i in range(len(languages)):
                     print()
                     scores = getScores(username, languages[i])
                     avg = 0.0
-                    for i in range(len(scores)):
-                        avg = avg+scores[i]
+                    for j in range(len(scores)):
+                        avg = avg+scores[j]
                     if len(scores) > 0:
                         avg = avg/len(scores)
                     else:
@@ -286,8 +289,7 @@ while True:
             print()
             
         qnumber = 0
-        playing = 1
-        while qnumber < 20 and playing == 1:
+        while qnumber < 20:
             question = qanda.getQuestion(qnumber, language)
             answer = qanda.getAnswer(qnumber)
             answers = qanda.generateAnswers(qnumber)
