@@ -199,14 +199,15 @@ while True:
             if useraction == "2":
                 for i in range(len(languages)):
                     qlang = languages[i]
-                    scores = getScores(username, qlang)
+                    intscores = getScores(username, qlang)
                     print("Your scores for {} are: ".format(qlang.title()))
-                    if len(scores) == 0:
+                    if len(intscores) == 0:
                         print("You haven't played a game yet!")
                     else:
-                        for j in range(len(scores)):
-                            scores[i] = 
-                        print(", ".join(scores))
+                        strscores = []
+                        for j in range(len(intscores)):
+                            strscores.append(str(intscores[j]))
+                        print(", ".join(strscores))
                     print()
                     
             if useraction == "3":
