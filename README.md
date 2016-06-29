@@ -12,3 +12,8 @@ Currently, I have implemented:
 I plan to implement more languages and allow for users to add their own languages.
 
 It also lets users log in and save their scores which allows them to see statistics such as their top score and their overall average.
+
+<h2>Requirements</h2>
+<ul>
+<li>Python 3</li>
+</ul>
