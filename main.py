@@ -1,6 +1,6 @@
 import qanda
 from time import sleep
-import hashlib, uuid
+import hashlib
 import sqlite3
 
 conn = sqlite3.connect('quiz.db')
@@ -51,7 +51,6 @@ def createUser():
 
 def changePassword(username):
     while True:
-        #put in password original check
         print("Please enter your old password")
         oldpass = input("--> ")
         if "('{}',)".format(hashPassword(oldpass)) != getPassword(username):
@@ -75,7 +74,6 @@ def changePassword(username):
                 print("Sorry, that was not a valid input. Try again.")
         hpass = hashPassword(password)
         c = conn.cursor()
-        #change this not insert into
         c.execute('UPDATE users SET password=? WHERE username=?', (hpass, username))
         conn.commit()
         print("Updated {}'s password.".format(username))

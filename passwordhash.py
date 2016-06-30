@@ -1,4 +1,4 @@
-import hashlib, uuid
+import hashlib
 
 password = input("Please type a new password: ")
 hashed_password = hashlib.sha512(password.encode('utf-8')).hexdigest()
