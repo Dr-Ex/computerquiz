@@ -94,6 +94,16 @@ def getScores(username, language):
         scores.append(int(x))
     return scores
 
+def deleteUser(username):
+    c = conn.cursor()
+    c.execute("DELETE FROM users WHERE username=?", (username,))
+    c.execute("DELETE FROM scores WHERE user=?", (username,))
+    conn.commit()
+
+def getGraph(data):
+    
+
+
 menu = 1
 game = 0
 loggedin = 0
@@ -186,10 +196,13 @@ while True:
             print("Please choose a user action.")
             print("1. Play Quiz")
             print("2. Show all previous scores")
-            print("3. Statistics")
+            print("3. View Statistics")
             print("4. Change your password")
-            print("5. Logout")
+            print("5. Delete your account")
+            print("6. Logout")
             useraction = input("--> ")
+            
+
             if useraction == "1":
                 menu = 0
                 game = 1
@@ -229,6 +242,23 @@ while True:
                 loggedin = 0
             
             if useraction == "5":
+                
+                while True:
+                    print()
+                    print("Are you sure you want to delete your account {}?".format(username))
+                    print("There is no turning back. (y/n")
+                    sure = input("--> ").lower()
+                    if sure == "y" or sure == "yes":
+                        deleteUser(username)
+                        loggedin = 0
+                        break
+                    if sure == "n" or sure == "no":
+                        break
+                    else:
+                        print("Sorry, that was not a valid input. Try again.")
+
+
+            if useraction == "6":
                 loggedin = 0
                 print("You have been logged out.")
             input("Press enter to continue.")
