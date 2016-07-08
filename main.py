@@ -152,6 +152,7 @@ while True:
                 break
             if username == 'n':
                 createUser()
+                continue
             if "('{}',)".format(username) in users:
                 print()
                 print("Please enter your password:")
@@ -261,13 +262,14 @@ while True:
             print("1 - easy     (10 questions)")
             print("2 - medium   (15 questions)")
             print("3 - hard     (20 questions)")
-            print("4 - hardcore (no errors allowed!)")        
+            print("4 - hardcore (no errors allowed!)")     
+            print("5 - debug")   
             try:
                 difficulty = int(input("--> "))
             except ValueError:
                 print("Sorry, that was not a valid input. Try again.")
                 continue
-            if difficulty < 1 or difficulty > 4:
+            if difficulty < 1 or difficulty > 5:
                 print("Sorry, that was not a valid input. Try again.")
                 continue
             if difficulty == 4:
@@ -282,6 +284,10 @@ while True:
                         break
                     else:
                         print("Sorry, that was not a valid input. Try again.")
+            debug = False
+            if difficulty == 5:
+                difficulty = 4
+                debug = True
             else:
                 dloop = 0
         for i in range(5):
@@ -300,7 +306,8 @@ while True:
                     answers[0], answers[1], answers[2], answers[3]))
                 if qnumber == 0:
                     print("(Type in the number that corresponds to the word you choose)")
-                print("Hint, it's {}".format(answer))
+                if debug == True:
+                    print("Hint, it's {}".format(answer))
                 try:
                     uanswer = int(input("--> "))
                 except ValueError:
