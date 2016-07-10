@@ -101,7 +101,7 @@ def deleteUser(username):
     conn.commit()
 
 def getGraph(data):
-    
+    return False
 
 
 menu = 1
