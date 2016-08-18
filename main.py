@@ -101,7 +101,21 @@ def deleteUser(username):
     conn.commit()
 
 def getGraph(data):
-    return False
+    data = list(reversed(data))
+    linelist = []
+    if len(data) >= 10:
+        for i in range(10):
+            if data[i] < 10:
+                line = " Game {}: {}   {}".format(i+1, data[i], "#"*data[i]) if i<9 else "Game {}: {}   {}".format(i+1, data[i], "#"*data[i])
+            else:
+                line = " Game {}: {}  {}".format(i+1, data[i], "#"*data[i]) if i<9 else "Game {}: {}  {}".format(i+1, data[i], "#"*data[i])
+            linelist.append(line)
+    else:
+        print("You need to have played more than 10 games to see this!")
+        return False
+
+    return "\n".join(linelist)
+
 
 
 menu = 1
@@ -196,10 +210,11 @@ while True:
             print("Please choose a user action.")
             print("1. Play Quiz")
             print("2. Show all previous scores")
-            print("3. View Statistics")
-            print("4. Change your password")
-            print("5. Delete your account")
-            print("6. Logout")
+            print("3. View recent scores graph")
+            print("4. View Statistics")
+            print("5. Change your password")
+            print("6. Delete your account")
+            print("7. Logout")
             useraction = input("--> ")
             
 
@@ -209,6 +224,7 @@ while True:
                 break
             
             if useraction == "2":
+                print()
                 for i in range(len(languages)):
                     qlang = languages[i]
                     intscores = getScores(username, qlang)
@@ -221,8 +237,17 @@ while True:
                             strscores.append(str(intscores[j]))
                         print(", ".join(strscores))
                     print()
-                    
+
             if useraction == "3":
+                print()
+                for i in range(len(languages)):
+                    qlang = languages[i]
+                    intscores = getScores(username, qlang)
+                    print("Last 10 {} scores".format(qlang.title()))
+                    print(getGraph(intscores))
+                    print()
+                    
+            if useraction == "4":
                 for i in range(len(languages)):
                     print()
                     scores = getScores(username, languages[i])
@@ -237,11 +262,11 @@ while True:
                     print("Your highest score is: ", max(scores) if len(scores) > 0 else "0")
                     print("Your average score is: ", avg)
                 
-            if useraction == "4":
+            if useraction == "5":
                 changePassword(username)
                 loggedin = 0
             
-            if useraction == "5":
+            if useraction == "6":
                 
                 while True:
                     print()
@@ -258,7 +283,7 @@ while True:
                         print("Sorry, that was not a valid input. Try again.")
 
 
-            if useraction == "6":
+            if useraction == "7":
                 loggedin = 0
                 print("You have been logged out.")
             input("Press enter to continue.")
@@ -380,4 +405,5 @@ while True:
                 print("Sorry, that was not a valid input. Try again.")    
     if loggedin == 0:
         break
-print("The end. Thank you for playing!")
+conn.close()
+print("Thank you for playing!")
