@@ -1,4 +1,5 @@
 from random import choice, shuffle
+import sqlite3
 
 english = ["mouse", "keyboard", "speaker", "internet", "monitor", 
            "computer", "email", "virus", "memory", "backup", 
