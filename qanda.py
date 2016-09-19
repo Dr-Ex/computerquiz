@@ -1,6 +1,10 @@
 from random import choice, shuffle
 import sqlite3
 
+# conn = sqlite3.connect('quiz.db')
+# c = conn.cursor()
+#c.execute("sqlite statement")
+
 english = ["mouse", "keyboard", "speaker", "internet", "monitor", 
            "computer", "email", "virus", "memory", "backup", 
            "microphone", "copy", "paste", "cursor", "floppy disk", 
@@ -13,6 +17,8 @@ spanish = ["ratón", "teclado", "altoparlante", "internet", "monitor",
            "computadora", "correo electrónico", "virus", "memoria", "apoyo", 
            "micrófono", "dupdo", "pegar", "cursor", "disco flexible", 
            "descargar", "hoja de cálculo", "barra de herramientas", "formato", "base de datos"]
+
+#maori = c.execute("SELECT * FROM languages WHERE language_name = ?", ())
 
 def getQuestion(qnumber, language):
     if language == "maori":

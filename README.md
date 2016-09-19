@@ -17,3 +17,9 @@ It also lets users log in and save their scores which allows them to see statist
 <ul>
 <li>Python 3</li>
 </ul>
+
+<b>To start, run <span style="font-style:italic;">main.py</span></b>
+
+To enter debug mode, type 975 at the difficulty select. This will display the answer to the question along with the question.
+
+To see an example of the scores graph enter the username <span style="font-style:italic;">cheat</span> and password <span style="font-style:italic;">cheat</span> for an account with many random scores inserted into the database.

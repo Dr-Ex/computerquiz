@@ -112,7 +112,7 @@ def getGraph(data):
             linelist.append(line)
     else:
         print("You need to have played more than 10 games to see this!")
-        return False
+        pass
 
     return "\n".join(linelist)
 
@@ -318,7 +318,7 @@ while True:
             print("2 - medium   (15 questions)")
             print("3 - hard     (20 questions)")
             print("4 - hardcore (no errors allowed!)")     
-            print("5 - debug")   
+            print("975 - debug")   
             try:
                 difficulty = int(input("--> "))
             except ValueError:
@@ -340,9 +340,10 @@ while True:
                     else:
                         print("Sorry, that was not a valid input. Try again.")
             debug = False
-            if difficulty == 5:
+            if difficulty == 975:
                 difficulty = 4
                 debug = True
+                dloop = 0
             else:
                 dloop = 0
         for i in range(5):
