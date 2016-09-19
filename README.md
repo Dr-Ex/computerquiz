@@ -22,4 +22,4 @@ It also lets users log in and save their scores which allows them to see statist
 
 To enter debug mode, type 975 at the difficulty select. This will display the answer to the question along with the question.
 
-To see an example of the scores graph enter the username <span style="font-style:italic;">cheat</span> and password <span style="font-style:italic;">cheat</span> for an account with many random scores inserted into the database.
+To see an example of the scores graph enter the username <i>cheat</i> and password <i>cheat</i> for an account with many random scores inserted into the database.
