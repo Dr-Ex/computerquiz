@@ -1,4 +1,5 @@
 import qanda
+import addlanguage
 from time import sleep
 import hashlib
 import sqlite3
@@ -116,19 +117,25 @@ def getGraph(data):
 
     return "\n".join(linelist)
 
+def cleanSQL(string):
+    string = str(string)
+    string = string[2:]
+    string = string[:len(string)-3]
+    return string
+
 
 
 menu = 1
 game = 0
 loggedin = 0
 runno = 0
-languages = ["maori", "spanish"]
+languages = qanda.getLanguages()
 
 print()
 print("######################################")
 #print("#                                    #")
 print("# Welcome to the Computer Term Quiz! #")
-print("#                v0.2                #")
+print("#                v1.0                #")
 print("######################################")
 print()
 print("You choose a language and then try to translate computer terms")
@@ -166,6 +173,7 @@ while True:
                 break
             users = []
             attempt = 1
+            #get list of usernames from the database
             c = conn.execute("SELECT username from users")
             for row in c:
                 users.append(str(row))
@@ -177,6 +185,7 @@ while True:
             if username == 'n':
                 createUser()
                 continue
+            #check if the username exists
             if "('{}',)".format(username) in users:
                 print()
                 print("Please enter your password:")
@@ -212,17 +221,20 @@ while True:
             print("2. Show all previous scores")
             print("3. View recent scores graph")
             print("4. View Statistics")
-            print("5. Change your password")
-            print("6. Delete your account")
-            print("7. Logout")
+            print("5. Add a new language")
+            print("6. Change your password")
+            print("7. Delete your account")
+            print("8. Logout")
             useraction = input("--> ")
             
 
+            #play quiz
             if useraction == "1":
                 menu = 0
                 game = 1
                 break
             
+            #print all users previous scores
             if useraction == "2":
                 print()
                 for i in range(len(languages)):
@@ -238,6 +250,7 @@ while True:
                         print(", ".join(strscores))
                     print()
 
+            #generate last 10 scores graphs for each language
             if useraction == "3":
                 print()
                 for i in range(len(languages)):
@@ -247,6 +260,7 @@ while True:
                     print(getGraph(intscores))
                     print()
                     
+            #calculate users statistics from the database
             if useraction == "4":
                 for i in range(len(languages)):
                     print()
@@ -261,12 +275,18 @@ while True:
                     print("{} Language Stats".format(languages[i].title()))
                     print("Your highest score is: ", max(scores) if len(scores) > 0 else "0")
                     print("Your average score is: ", avg)
-                
+               
+            #add a new language
             if useraction == "5":
+                addlanguage.addLanguage()
+
+            #change password
+            if useraction == "6":
                 changePassword(username)
                 loggedin = 0
             
-            if useraction == "6":
+            #delete account
+            if useraction == "7":
                 
                 while True:
                     print()
@@ -282,8 +302,8 @@ while True:
                     else:
                         print("Sorry, that was not a valid input. Try again.")
 
-
-            if useraction == "7":
+            #logout
+            if useraction == "8":
                 loggedin = 0
                 print("You have been logged out.")
             input("Press enter to continue.")
@@ -297,19 +317,28 @@ while True:
         while True:
             print()
             print("What language would you like to try today?")
-            print("1. Maori")
-            print("2. Spanish")
-            language = input("--> ")
-            if language == "1":
-                language = "maori"
-                break
-            if language == "2":
-                language = "spanish"
+            #print list of languages to choose
+            languageList = qanda.getLanguages()
+            languageNoList = []
+            for i in range(len(languageList)):
+                languageNoList.append(i+1)
+
+            for i in range(len(languageList)):
+                print("{}: {}".format(i+1, languageList[i]).title())
+
+            try:
+                language = int(input("-->"))
+            except ValueError:
+                print("That is not a valid option. Try again.")
+                continue
+            if language in languageNoList:
+                language = languageList[language-1]
                 break
             else:
                 print("That is not a valid option. Try again.")
                 continue
-                
+
+        
         dloop = 1
         while dloop == 1:
             print()
@@ -324,9 +353,7 @@ while True:
             except ValueError:
                 print("Sorry, that was not a valid input. Try again.")
                 continue
-            if difficulty < 1 or difficulty > 5:
-                print("Sorry, that was not a valid input. Try again.")
-                continue
+            
             if difficulty == 4:
                 while True:
                     print()
@@ -344,6 +371,9 @@ while True:
                 difficulty = 4
                 debug = True
                 dloop = 0
+            if difficulty < 1 or difficulty > 5:
+                print("Sorry, that was not a valid input. Try again.")
+                continue
             else:
                 dloop = 0
         for i in range(5):
@@ -392,6 +422,7 @@ while True:
         print("You finished the game with a score of {}!".format(score))
         if loggedin == 1:
             c = conn.cursor()
+            #if the user is logged in add their score to their database under their username
             c.execute('INSERT INTO scores(score, user, language) VALUES(?,?,?)', (score, username, language))
             conn.commit()
         while True:
@@ -406,5 +437,6 @@ while True:
                 print("Sorry, that was not a valid input. Try again.")    
     if loggedin == 0:
         break
+#exit gracefully
 conn.close()
 print("Thank you for playing!")

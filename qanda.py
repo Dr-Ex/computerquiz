@@ -1,34 +1,41 @@
 from random import choice, shuffle
 import sqlite3
 
-# conn = sqlite3.connect('quiz.db')
-# c = conn.cursor()
-#c.execute("sqlite statement")
+conn = sqlite3.connect('quiz.db')
+c = conn.cursor()
 
 english = ["mouse", "keyboard", "speaker", "internet", "monitor", 
            "computer", "email", "virus", "memory", "backup", 
            "microphone", "copy", "paste", "cursor", "floppy disk", 
            "download", "spreadsheet", "toolbar", "format", "database"]
-maori = ["kiore rorohiko", "papapāhuti", "tukuoro", "ipurangi", "kaupane", 
-         "rorohiko", "karere hiko", "ngārara", "pūmahara", "tārua", 
-         "hopuoro", "tārua", "tāpia", "kaitiri", "kōpae ngohe", 
-         "tango iho", "whārangi-hora", "paeutauta", "whakatakoto", "pūpāhīhī"]
-spanish = ["ratón", "teclado", "altoparlante", "internet", "monitor", 
-           "computadora", "correo electrónico", "virus", "memoria", "apoyo", 
-           "micrófono", "dupdo", "pegar", "cursor", "disco flexible", 
-           "descargar", "hoja de cálculo", "barra de herramientas", "formato", "base de datos"]
 
-#maori = c.execute("SELECT * FROM languages WHERE language_name = ?", ())
+
+#cleans output from an sqlite query and converts to string
+def cleanSQL(string):
+    string = str(string)
+    string = string[2:]
+    string = string[:len(string)-3]
+    return string
+
+def getLanguages():
+    languageList = []
+    languages = c.execute("SELECT language_name FROM languages")
+    for language in languages:
+        languageList.append(cleanSQL(language))
+    return languageList
+
 
 def getQuestion(qnumber, language):
-    if language == "maori":
-        return maori[qnumber]
-    if language == "spanish":
-        return spanish[qnumber]
+    questionList = []
+    question = c.execute("SELECT %s FROM languages WHERE language_name=?;" % (english[qnumber]), (language,))
+    for word in question:
+        questionList.append(cleanSQL(word))
+    return questionList[0]
 
 def getAnswer(qnumber):
     return english[qnumber]
 
+# generates a list of 4 english words which contains one correct and 3 incorrect
 def generateAnswers(qnumber):
     answers = []
     answers.append(english[qnumber])
