@@ -18,10 +18,14 @@ def getPassword(user):
 
 def createUser():
     while True:
+        print()
         print("Choose a username (type 'e' to escape this screen)")
         username = input("--> ")
         if username == 'e':
             return False
+        if username == 'n':
+            print("Sorry, you can't create this user.")
+            continue
         if "('{}',)".format(username) in users:
             print("Sorry, that user already exists!")
             continue
@@ -178,7 +182,7 @@ while True:
             for row in c:
                 users.append(str(row))
             print("Please enter your username. (Type 'e' to escape)")
-            print("To create a new user type 'n'")
+            print("To create a new user type 'n' and press enter")
             username = input("--> ")
             if username == "e":
                 break
@@ -317,7 +321,7 @@ while True:
         while True:
             print()
             print("What language would you like to try today?")
-            #print list of languages to choose
+            
             languageList = qanda.getLanguages()
             languageNoList = []
             for i in range(len(languageList)):
@@ -325,11 +329,11 @@ while True:
 
             for i in range(len(languageList)):
                 print("{}: {}".format(i+1, languageList[i]).title())
-
+            #print list of languages to choose
             try:
                 language = int(input("-->"))
             except ValueError:
-                print("That is not a valid option. Try again.")
+                print("That is not a valid option. Type the number corresponding to the language.")
                 continue
             if language in languageNoList:
                 language = languageList[language-1]
@@ -347,7 +351,7 @@ while True:
             print("2 - medium   (15 questions)")
             print("3 - hard     (20 questions)")
             print("4 - hardcore (no errors allowed!)")     
-            print("975 - debug")   
+            #print("975 - debug")   
             try:
                 difficulty = int(input("--> "))
             except ValueError:

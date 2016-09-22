@@ -15,7 +15,10 @@ newLanguage = []
 def addLanguage():
 	print()
 	print("What is the name of the language that you will be adding? (one word only)")
+	print("(type 'a' at any time to abort)")
 	languageName = input("-->").lower()
+	if languageName == 'a':
+		pass
 
 	print()
 
@@ -23,6 +26,8 @@ def addLanguage():
 		print()
 		print("Please enter the {} word for {}".format(languageName, english[i]))
 		currentWord = input("-->").lower()
+		if currentWord == 'a':
+			pass
 		newLanguage.append(currentWord)
 
 	c.execute("INSERT INTO languages (language_name, mouse, keyboard, speaker, internet, monitor, "
@@ -35,14 +40,3 @@ def addLanguage():
 	conn.commit()
 
 	print("Your language has been added.")
-
-# while True:
-#     addLanguage()
-#     print("Do you want to add another language?")
-#     sure = input("--> ").lower()
-#     if sure == "y" or sure == "yes":
-#         continue
-#     if sure == "n" or sure == "no":
-#         break
-#     else:
-#         print("Sorry, that was not a valid input. Try again.")
